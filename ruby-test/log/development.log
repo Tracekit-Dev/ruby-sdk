@@ -1,0 +1,905 @@
+Started GET "/health" for ::1 at 2026-02-04 10:13:06 +0100
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#health as */*
+Completed 200 OK in 17ms (Views: 1.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:13:13 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:13:14 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:13:14 +0100
+  
+ActionController::RoutingError (uninitialized constant Api):
+
+Causes:
+ActionDispatch::MissingController (uninitialized constant Api)
+NameError (uninitialized constant Api)
+  
+Started GET "/api/data" for ::1 at 2026-02-04 10:14:44 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 39ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:14:45 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:14:45 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:23:34 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#test as */*
+Completed 500 Internal Server Error in 17ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+NoMethodError (undefined method `increment' for an instance of Tracekit::Metrics::Counter):
+  
+app/controllers/application_controller.rb:41:in `test'
+Started GET "/checkout" for ::1 at 2026-02-04 10:23:34 +0100
+Processing by ApplicationController#checkout as */*
+Completed 500 Internal Server Error in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+NoMethodError (undefined method `increment' for an instance of Tracekit::Metrics::Counter):
+  
+app/controllers/application_controller.rb:93:in `checkout'
+Started GET "/health" for 203.0.113.45 at 2026-02-04 10:23:35 +0100
+Processing by ApplicationController#health as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:24:18 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#test as */*
+Completed 200 OK in 16ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:24:18 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:24:18 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 31ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:24:26 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 5.7ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:24:26 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/health" for 203.0.113.45 at 2026-02-04 10:24:26 +0100
+Processing by ApplicationController#health as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:24:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:24:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:24:43 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:24:43 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:24:44 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:24:44 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 2.7ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:24:45 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.3ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:24:45 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:24:46 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:24:46 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:28:58 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#test as */*
+Completed 200 OK in 17ms (Views: 0.6ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:28:59 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:28:59 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:28:59 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:00 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:00 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:00 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:00 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:01 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:01 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:01 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:01 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:02 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:02 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2012ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.5ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:05 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:05 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:05 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:05 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:06 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:06 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 8ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 6.5ms)
+
+
+Started GET "/health" for ::1 at 2026-02-04 10:29:14 +0100
+Processing by ApplicationController#health as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:29:14 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:29:14 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:29:14 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 25ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:46 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#test as */*
+Completed 200 OK in 17ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:46 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:46 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 49ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:47 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:47 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:47 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 47ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:47 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:47 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:47 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 17ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:48 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:48 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:48 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 43ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:49 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 9ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 7.5ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:49 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:49 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 19ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:49 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:54 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:54 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:55 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 4ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 2.5ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:55 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:55 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 25ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:55 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:55 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:55 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 13ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:56 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:56 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:56 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 49ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:33:57 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:33:57 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/data" for ::1 at 2026-02-04 10:33:57 +0100
+Processing by Api::ApiController#data as */*
+Completed 200 OK in 18ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 5ms (Views: 0.8ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 40ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 37.2ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 8ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 2.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.3ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:42 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 4161ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 2.5ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:46 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:47 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:47 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:54 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 5ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 3.1ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:54 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:54 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:54 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 6.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 4.3ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 5.3ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.8ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 5.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:36:55 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:37:28 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:37:44 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:37:44 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.3ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:37:44 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:37:44 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:37:44 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:38:42 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:30 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#test as */*
+Completed 200 OK in 18ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:30 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 12ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 10.1ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.4ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:42:53 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:42:54 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 7140ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:43:01 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:43:01 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:43:01 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:43:01 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:43:01 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-02-04 10:43:01 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:48:11 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#test as */*
+Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:48:49 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 11ms (Views: 1.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:48:49 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 2ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:48:50 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 64ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 59.6ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:48:51 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-02-04 10:48:51 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-02-04 09:57:47.407520', '2026-02-04 09:57:47.407523') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20260204000001)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar, "age" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Alice"], ["email", "alice@example.com"], ["age", 30], ["created_at", "2026-02-04 09:57:47.439944"], ["updated_at", "2026-02-04 09:57:47.439944"]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Bob"], ["email", "bob@example.com"], ["age", 25], ["created_at", "2026-02-04 09:57:47.442419"], ["updated_at", "2026-02-04 09:57:47.442419"]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Charlie"], ["email", "charlie@example.com"], ["age", 35], ["created_at", "2026-02-04 09:57:47.444450"], ["updated_at", "2026-02-04 09:57:47.444450"]]
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260204000001') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/users" for ::1 at 2026-02-04 10:58:24 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#users as */*
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:186:in `users'
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE (age >= ?)[0m  [[nil, 18]]
+  ↳ app/controllers/application_controller.rb:189:in `users'
+  [1m[36mUser Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:192:in `users'
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:195:in `users'
+Completed 200 OK in 53ms (Views: 0.5ms | ActiveRecord: 2.2ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/users" for ::1 at 2026-02-04 10:58:37 +0100
+Processing by ApplicationController#users as */*
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:186:in `users'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE (age >= ?)[0m  [[nil, 18]]
+  ↳ app/controllers/application_controller.rb:189:in `users'
+  [1m[36mUser Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:192:in `users'
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:195:in `users'
+Completed 200 OK in 19ms (Views: 0.7ms | ActiveRecord: 1.4ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/users" for ::1 at 2026-02-04 11:02:36 +0100
+Processing by ApplicationController#users as */*
+  [1m[36mUser Load (4.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:186:in `users'
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE (age >= ?)[0m  [[nil, 18]]
+  ↳ app/controllers/application_controller.rb:189:in `users'
+  [1m[36mUser Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:192:in `users'
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:195:in `users'
+Completed 200 OK in 49ms (Views: 0.2ms | ActiveRecord: 6.3ms (4 queries, 0 cached) | GC: 13.5ms)
+
+
+  [1m[35m (23.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (9.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT pg_try_advisory_lock(656059768334519220)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (3.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (3.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (1.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-02-04 10:20:22.733527', '2026-02-04 10:20:22.733530') RETURNING "key"[0m
+Migrating to CreateUsers (20260204000001)
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (15.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "email" character varying, "age" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mUser Create (1.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Alice"], ["email", "alice@example.com"], ["age", 30], ["created_at", "2026-02-04 10:20:22.791356"], ["updated_at", "2026-02-04 10:20:22.791356"]]
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Bob"], ["email", "bob@example.com"], ["age", 25], ["created_at", "2026-02-04 10:20:22.795475"], ["updated_at", "2026-02-04 10:20:22.795475"]]
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Charlie"], ["email", "charlie@example.com"], ["age", 35], ["created_at", "2026-02-04 10:20:22.798162"], ["updated_at", "2026-02-04 10:20:22.798162"]]
+  [1m[36mActiveRecord::SchemaMigration Create (1.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260204000001') RETURNING "version"[0m
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT pg_advisory_unlock(656059768334519220)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/users" for ::1 at 2026-02-04 11:21:38 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (2.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#users as */*
+  [1m[36mUser Load (35.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:186:in `users'
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE (age >= $1)[0m  [[nil, 18]]
+  ↳ app/controllers/application_controller.rb:189:in `users'
+  [1m[36mUser Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:192:in `users'
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:195:in `users'
+Completed 200 OK in 101ms (Views: 0.6ms | ActiveRecord: 61.0ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/users" for ::1 at 2026-02-04 11:27:57 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (2.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#users as */*
+  [1m[36mUser Load (34.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:186:in `users'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE (age >= $1)[0m  [[nil, 18]]
+  ↳ app/controllers/application_controller.rb:189:in `users'
+  [1m[36mUser Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:192:in `users'
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:195:in `users'
+Completed 200 OK in 105ms (Views: 0.2ms | ActiveRecord: 62.8ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/users" for ::1 at 2026-02-04 11:31:12 +0100
+Processing by ApplicationController#users as */*
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:186:in `users'
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE (age >= $1)[0m  [[nil, 18]]
+  ↳ app/controllers/application_controller.rb:189:in `users'
+  [1m[36mUser Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:192:in `users'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:195:in `users'
+Completed 200 OK in 19ms (Views: 0.4ms | ActiveRecord: 4.6ms (4 queries, 0 cached) | GC: 0.0ms)
+
+

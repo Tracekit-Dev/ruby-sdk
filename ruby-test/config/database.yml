@@ -1,0 +1,21 @@
+# PostgreSQL configuration for ruby-test application
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+  port: 5437
+  username: contextio
+  password: contextio_dev_password
+
+development:
+  <<: *default
+  database: ruby_test_app
+
+test:
+  <<: *default
+  database: ruby_test_app_test
+
+production:
+  <<: *default
+  database: ruby_test_app

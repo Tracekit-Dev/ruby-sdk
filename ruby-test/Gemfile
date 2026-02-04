@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+ruby ">= 2.7.0"
+
+gem "rails", "~> 7.1"
+gem "puma", "~> 6.0"
+gem "pg", "~> 1.5"
+
+# TraceKit SDK
+gem "tracekit", path: ".."
+
+# OpenTelemetry instrumentation for automatic tracing
+gem "opentelemetry-instrumentation-rails", "~> 0.39"
+gem "opentelemetry-instrumentation-active_record", "~> 0.9"
+gem "opentelemetry-instrumentation-action_view", "~> 0.9"
+gem "opentelemetry-instrumentation-action_pack", "~> 0.9"
+gem "opentelemetry-instrumentation-pg", "~> 0.29"
+
+# HTTP client for cross-service calls
+gem "httparty", "~> 0.21"
+
+# Environment variables
+gem "dotenv-rails", "~> 2.8"
+
+group :development do
+  gem "listen", "~> 3.8"
+end
