@@ -286,6 +286,97 @@ sdk.capture_snapshot("user-login", {
 })
 ```
 
+## Kill Switch
+
+TraceKit provides a server-side toggle to disable code monitoring per service without deploying code changes.
+
+### How It Works
+
+When the kill switch is enabled for your service, the SDK sets `@kill_switch_active = true` and suppresses all snapshot captures. The SDK detects kill switch state through two channels:
+
+1. **Polling** — The SDK checks for kill switch state on every poll cycle (default 30s)
+2. **SSE** — Real-time kill switch events are received instantly via Server-Sent Events
+
+```ruby
+sdk = Tracekit.sdk
+
+# No code changes needed — captures are automatically suppressed
+sdk.capture_snapshot("checkout-start", {
+  userId: 123,
+  amount: 99.99
+})
+# When kill switch is active, this is a no-op
+```
+
+### Behavior When Active
+
+- All `capture_snapshot` calls become no-ops (zero overhead)
+- Polling frequency reduces from 30s to **60s** to minimize server load
+- Distributed tracing and metrics continue to function normally
+- When the kill switch is disabled, captures resume automatically on the next poll cycle
+
+### Controlling the Kill Switch
+
+- **Dashboard**: Toggle code monitoring on/off per service in the TraceKit dashboard
+- **API**: `POST /api/services/:name/kill-switch` with `{"enabled": true}` or `{"enabled": false}`
+
+## SSE Real-time Updates
+
+The SDK supports Server-Sent Events (SSE) for receiving breakpoint changes and kill switch events in real time, without waiting for the next poll cycle.
+
+### How It Works
+
+1. The SDK auto-discovers the SSE endpoint from the poll response
+2. A background thread opens a persistent SSE connection
+3. Breakpoint activations/deactivations and kill switch events are applied instantly
+4. If SSE fails, the SDK falls back to polling seamlessly
+
+```ruby
+# SSE is enabled automatically when code monitoring is active.
+# No additional configuration needed.
+
+Tracekit.configure do |config|
+  config.enable_code_monitoring = true
+  config.code_monitoring_poll_interval = 30  # Polling still runs as fallback
+end
+```
+
+### Events Received via SSE
+
+| Event | Description |
+|-------|-------------|
+| `breakpoint.activated` | A breakpoint was enabled — start capturing |
+| `breakpoint.deactivated` | A breakpoint was disabled — stop capturing |
+| `kill_switch.enabled` | Code monitoring disabled for this service |
+| `kill_switch.disabled` | Code monitoring re-enabled for this service |
+
+## Circuit Breaker
+
+The circuit breaker protects your application if the TraceKit backend becomes unreachable.
+
+### How It Works
+
+1. The SDK tracks consecutive snapshot capture failures
+2. After **3 failures within 60 seconds**, code monitoring is automatically paused
+3. After a **5-minute cooldown**, the circuit breaker resets and captures resume
+
+```ruby
+# No configuration needed — circuit breaker is built into the SDK.
+# Thread-safe implementation via Mutex.
+
+sdk = Tracekit.sdk
+sdk.capture_snapshot("process-data", { batch_size: 100 })
+# If backend is down, circuit breaker trips after 3 failures
+# Captures resume automatically after 5-minute cooldown
+```
+
+### Behavior When Tripped
+
+- All `capture_snapshot` calls become no-ops (zero overhead)
+- Distributed tracing and metrics continue to function normally
+- The SDK automatically retries after the cooldown period
+- Thread-safe via `Mutex` — safe for multi-threaded Ruby applications (Puma, Sidekiq)
+
 ## Distributed Tracing
 
 The SDK automatically:
@@ -506,4 +597,4 @@ Built on [OpenTelemetry](https://opentelemetry.io/) - the industry standard for 
 ---
 
 **Repository**: git@github.com:Tracekit-Dev/ruby-sdk.git
-**Version**: v0.1.0
+**Version**: v0.2.0

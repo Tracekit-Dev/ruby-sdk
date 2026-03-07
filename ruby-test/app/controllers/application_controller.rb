@@ -178,6 +178,19 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def security_test
+    sdk = Tracekit.sdk
+    sdk.capture_snapshot("security-test-with-sensitive-data", {
+      password: "super_secret_123",
+      api_key: "sk_live_abc123def456",
+      user_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test.signature",
+      credit_card: "4532-1234-5678-9012",
+      normal_var: "this is fine",
+      email: "user@example.com"
+    })
+    render json: { message: "Security test completed - check snapshot for PII scrubbing" }
+  end
+
   def users
     # This endpoint demonstrates database tracing
     # Will generate SQL query spans automatically via ActiveRecord instrumentation

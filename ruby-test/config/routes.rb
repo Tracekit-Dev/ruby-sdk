@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "/error-test", to: "application#error_test"
   get "/checkout", to: "application#checkout"
   get "/users", to: "application#users"
+  get "/security-test", to: "application#security_test"
 
   namespace :api do
     get "/data", to: "api#data"
