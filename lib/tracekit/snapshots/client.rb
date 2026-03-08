@@ -437,13 +437,14 @@ module Tracekit
         when "kill_switch"
           payload = JSON.parse(data_str, symbolize_names: true)
           @kill_switch_active = payload[:enabled] == true
+          reschedule_polling(@kill_switch_active ? 60 : @normal_poll_interval)
           if @kill_switch_active
             warn "TraceKit: Code monitoring disabled by server kill switch via SSE."
             close_sse
           end
 
-        when "heartbeat"
-          # No action needed -- keeps connection alive
+        when "heartbeat", "sdk_count"
+          # No action needed -- heartbeat keeps connection alive, sdk_count is for dashboard UI
 
         else
           warn "TraceKit: Unknown SSE event type: #{event_type}" if ENV["DEBUG"]

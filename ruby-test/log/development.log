@@ -903,3 +903,94 @@ Processing by ApplicationController#users as */*
 Completed 200 OK in 19ms (Views: 0.4ms | ActiveRecord: 4.6ms (4 queries, 0 cached) | GC: 0.0ms)
 
 
+Started GET "/users" for ::1 at 2026-02-04 12:45:16 +0100
+Processing by ApplicationController#users as */*
+  [1m[36mUser Load (175.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:186:in `users'
+  [1m[36mUser Load (5.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE (age >= $1)[0m  [[nil, 18]]
+  ↳ app/controllers/application_controller.rb:189:in `users'
+  [1m[36mUser Count (2.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  ↳ app/controllers/application_controller.rb:192:in `users'
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:195:in `users'
+Completed 200 OK in 262ms (Views: 1.1ms | ActiveRecord: 276.1ms (4 queries, 0 cached) | GC: 43.6ms)
+
+
+  [1m[35m (11.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (14.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(656059768334519220)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (3.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (2.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-03-07 20:56:33.453484', '2026-03-07 20:56:33.453488') RETURNING "key"[0m
+Migrating to CreateUsers (20260204000001)
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (16.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "email" character varying, "age" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mUser Create (1.6ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Alice"], ["email", "alice@example.com"], ["age", 30], ["created_at", "2026-03-07 20:56:33.509362"], ["updated_at", "2026-03-07 20:56:33.509362"]]
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Bob"], ["email", "bob@example.com"], ["age", 25], ["created_at", "2026-03-07 20:56:33.513239"], ["updated_at", "2026-03-07 20:56:33.513239"]]
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "age", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Charlie"], ["email", "charlie@example.com"], ["age", 35], ["created_at", "2026-03-07 20:56:33.516150"], ["updated_at", "2026-03-07 20:56:33.516150"]]
+  [1m[36mActiveRecord::SchemaMigration Create (1.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260204000001') RETURNING "version"[0m
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(656059768334519220)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/health" for ::1 at 2026-03-07 21:56:44 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (2.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ApplicationController#health as */*
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.5ms)
+
+
+Started GET "/test" for ::1 at 2026-03-07 21:56:54 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/checkout" for ::1 at 2026-03-07 21:56:56 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-03-07 21:57:32 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 5.7ms)
+
+
+Started GET "/checkout" for ::1 at 2026-03-07 21:57:32 +0100
+Processing by ApplicationController#checkout as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/security-test" for ::1 at 2026-03-07 21:57:50 +0100
+Processing by ApplicationController#security_test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/security-test" for ::1 at 2026-03-07 21:57:52 +0100
+Processing by ApplicationController#security_test as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.7ms)
+
+
+Started GET "/security-test" for ::1 at 2026-03-07 21:58:21 +0100
+Processing by ApplicationController#security_test as */*
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.2ms)
+
+
+Started GET "/test" for ::1 at 2026-03-07 21:58:21 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 2.4ms)
+
+
+Started GET "/security-test" for ::1 at 2026-03-07 21:59:20 +0100
+Processing by ApplicationController#security_test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/test" for ::1 at 2026-03-07 21:59:20 +0100
+Processing by ApplicationController#test as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/security-test" for ::1 at 2026-03-07 22:00:03 +0100
+Processing by ApplicationController#security_test as */*
+Completed 200 OK in 24ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
