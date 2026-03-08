@@ -104,7 +104,7 @@ module Tracekit
         span_id = nil
         if defined?(OpenTelemetry::Trace)
           span = OpenTelemetry::Trace.current_span
-          if span && span.context.valid?
+          if span && span.context.valid? && (span.context.trace_flags & OpenTelemetry::Trace::TraceFlags::SAMPLED) != 0
             trace_id = span.context.hex_trace_id
             span_id = span.context.hex_span_id
           end
