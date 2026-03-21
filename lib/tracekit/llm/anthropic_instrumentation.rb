@@ -15,17 +15,17 @@ module Tracekit
           return false unless defined?(::Anthropic::Client)
         end
 
-        # Anthropic gem: Anthropic::Client::Messages has #create
-        messages_class = ::Anthropic::Client::Messages rescue nil
-        # If the gem structure differs, try alternate paths
-        messages_class ||= (::Anthropic::Messages rescue nil)
-
-        return false unless messages_class
+        return false unless defined?(::Anthropic::Client)
 
         instrumentation_mod = Module.new do
-          define_method(:create) do |**params|
-            model = params[:model] || params["model"] || "unknown"
-            is_streaming = !!(params[:stream] || params["stream"])
+          define_method(:messages) do |**params|
+            # When called with no parameters, return the Messages::Client (for batches etc.)
+            return super(**params) unless params[:parameters]
+
+            parameters = params[:parameters]
+            model = parameters[:model] || parameters["model"] || "unknown"
+            stream_proc = parameters[:stream] || parameters["stream"]
+            is_streaming = stream_proc.is_a?(Proc)
             capture = Common.capture_content?
 
             span = tracer.start_span("chat #{model}", kind: :client)
@@ -34,27 +34,37 @@ module Tracekit
               Common.set_request_attributes(span,
                 provider: "anthropic",
                 model: model,
-                max_tokens: params[:max_tokens] || params["max_tokens"],
-                temperature: params[:temperature] || params["temperature"],
-                top_p: params[:top_p] || params["top_p"]
+                max_tokens: parameters[:max_tokens] || parameters["max_tokens"],
+                temperature: parameters[:temperature] || parameters["temperature"],
+                top_p: parameters[:top_p] || parameters["top_p"]
               )
 
               # Capture input content
               if capture
-                system_prompt = params[:system] || params["system"]
+                system_prompt = parameters[:system] || parameters["system"]
                 Common.capture_system_instructions(span, system_prompt) if system_prompt
-                messages = params[:messages] || params["messages"]
+                messages = parameters[:messages] || parameters["messages"]
                 Common.capture_input_messages(span, messages) if messages
               end
 
-              result = super(**params)
-
               if is_streaming
-                return AnthropicStreamWrapper.new(result, span, capture)
-              end
+                # Wrap the user's stream proc to accumulate span data
+                accumulator = AnthropicStreamAccumulator.new(span, capture)
+                wrapper_proc = proc do |event|
+                  accumulator.process_event(event)
+                  stream_proc.call(event)
+                end
 
-              handle_anthropic_response(span, result, capture)
-              result
+                # Replace stream proc with our wrapper
+                wrapped_params = parameters.merge(stream: wrapper_proc)
+                result = super(parameters: wrapped_params)
+                accumulator.finalize
+                result
+              else
+                result = super(**params)
+                handle_anthropic_response(span, result, capture)
+                result
+              end
             rescue => e
               Common.set_error_attributes(span, e)
               span.finish
@@ -108,16 +118,13 @@ module Tracekit
           end
         end
 
-        messages_class.prepend(instrumentation_mod)
+        ::Anthropic::Client.prepend(instrumentation_mod)
         true
       end
 
-      # Wraps Anthropic streaming response
-      class AnthropicStreamWrapper
-        include Enumerable
-
-        def initialize(enum, span, capture_content)
-          @enum = enum
+      # Accumulates streaming event data for span attributes
+      class AnthropicStreamAccumulator
+        def initialize(span, capture_content)
           @span = span
           @capture = capture_content
           @model = nil
@@ -131,22 +138,6 @@ module Tracekit
           @tool_calls = {}
           @current_block_index = 0
         end
-
-        def each(&block)
-          return enum_for(:each) unless block_given?
-
-          @enum.each do |event|
-            process_event(event)
-            block.call(event)
-          end
-          finalize
-        rescue => e
-          Common.set_error_attributes(@span, e)
-          @span.finish
-          raise
-        end
-
-        private
 
         def process_event(event)
           event_type = event["type"] || event[:type]
