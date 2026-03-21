@@ -90,6 +90,9 @@ module Tracekit
       # Initialize OpenTelemetry tracer
       setup_tracing(traces_endpoint)
 
+      # Initialize LLM instrumentation (auto-detect providers)
+      setup_llm_instrumentation if defined?(Tracekit::LLM)
+
       # Initialize metrics registry
       @metrics_registry = Metrics::Registry.new(metrics_endpoint, config.api_key, config.service_name)
 
@@ -151,6 +154,32 @@ module Tracekit
     end
 
     private
+
+    def setup_llm_instrumentation
+      llm_config = @config.llm || {}
+      return unless llm_config.fetch(:enabled, true)
+
+      tracer = OpenTelemetry.tracer_provider.tracer("tracekit-llm", Tracekit::VERSION)
+
+      # Set capture_content env var from config if not already set
+      if llm_config[:capture_content] && !ENV.key?("TRACEKIT_LLM_CAPTURE_CONTENT")
+        ENV["TRACEKIT_LLM_CAPTURE_CONTENT"] = "true"
+      end
+
+      if llm_config.fetch(:openai, true)
+        if Tracekit::LLM::OpenAIInstrumentation.install(tracer)
+          puts "TraceKit: OpenAI LLM instrumentation enabled"
+        end
+      end
+
+      if llm_config.fetch(:anthropic, true)
+        if Tracekit::LLM::AnthropicInstrumentation.install(tracer)
+          puts "TraceKit: Anthropic LLM instrumentation enabled"
+        end
+      end
+    rescue => e
+      puts "TraceKit: LLM instrumentation setup failed: #{e.message}"
+    end
 
     def setup_tracing(traces_endpoint)
       OpenTelemetry::SDK.configure do |c|

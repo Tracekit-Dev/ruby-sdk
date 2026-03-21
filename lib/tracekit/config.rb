@@ -6,7 +6,8 @@ module Tracekit
   class Config
     attr_reader :api_key, :service_name, :endpoint, :use_ssl, :environment,
                 :service_version, :enable_code_monitoring,
-                :code_monitoring_poll_interval, :local_ui_port, :sampling_rate
+                :code_monitoring_poll_interval, :local_ui_port, :sampling_rate,
+                :llm
 
     def initialize(builder)
       @api_key = builder.api_key
@@ -19,6 +20,7 @@ module Tracekit
       @code_monitoring_poll_interval = builder.code_monitoring_poll_interval || 30
       @local_ui_port = builder.local_ui_port || 9999
       @sampling_rate = builder.sampling_rate || 1.0
+      @llm = (builder.llm || {}).freeze
 
       validate!
       freeze # Make configuration immutable
@@ -35,7 +37,8 @@ module Tracekit
     class Builder
       attr_accessor :api_key, :service_name, :endpoint, :use_ssl, :environment,
                     :service_version, :enable_code_monitoring,
-                    :code_monitoring_poll_interval, :local_ui_port, :sampling_rate
+                    :code_monitoring_poll_interval, :local_ui_port, :sampling_rate,
+                    :llm
 
       def initialize
         # Set defaults in builder
@@ -47,6 +50,7 @@ module Tracekit
         @code_monitoring_poll_interval = 30
         @local_ui_port = 9999
         @sampling_rate = 1.0
+        @llm = { enabled: true, openai: true, anthropic: true, capture_content: false }
       end
     end
 

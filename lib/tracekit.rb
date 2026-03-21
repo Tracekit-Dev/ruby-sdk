@@ -23,6 +23,15 @@ require_relative "tracekit/local_ui_detector"
 require_relative "tracekit/snapshots/models"
 require_relative "tracekit/snapshots/client"
 
+# LLM instrumentation
+begin
+  require_relative "tracekit/llm/common"
+  require_relative "tracekit/llm/openai_instrumentation"
+  require_relative "tracekit/llm/anthropic_instrumentation"
+rescue LoadError
+  # LLM instrumentation not available
+end
+
 # Core SDK
 require_relative "tracekit/sdk"
 require_relative "tracekit/middleware"
