@@ -69,11 +69,11 @@ module Api
         # Non-streaming
         begin
           client = Anthropic::Client.new(api_key: anthropic_key)
-          response = client.messages.create(
+          response = client.messages(parameters: {
             model: "claude-haiku-4-5-20251001",
             max_tokens: 50,
             messages: [{ role: "user", content: "Say hello in exactly 3 words." }]
-          )
+          })
           content_blocks = response["content"] || []
           text = content_blocks.map { |b| b["text"] }.compact.join
           results["anthropic_non_streaming"] = {
@@ -93,7 +93,7 @@ module Api
           client = Anthropic::Client.new(api_key: anthropic_key)
           stream_chunks = []
           stream_model = nil
-          client.messages.create(
+          client.messages(parameters: {
             model: "claude-haiku-4-5-20251001",
             max_tokens: 50,
             messages: [{ role: "user", content: "Say goodbye in exactly 3 words." }],
@@ -106,7 +106,7 @@ module Api
                 stream_chunks << delta_text if delta_text
               end
             }
-          )
+          })
           results["anthropic_streaming"] = {
             status: "PASS",
             model: stream_model,
