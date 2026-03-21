@@ -21,6 +21,10 @@ gem "opentelemetry-instrumentation-pg", "~> 0.29"
 # HTTP client for cross-service calls
 gem "httparty", "~> 0.21"
 
+# LLM client gems for testing instrumentation
+gem "ruby-openai", "~> 7.0"
+gem "anthropic", "~> 0.3"
+
 # Environment variables
 gem "dotenv-rails", "~> 2.8"
 

@@ -20,5 +20,6 @@ Rails.application.routes.draw do
     get "/call-java", to: "api#call_java"
     get "/call-dotnet", to: "api#call_dotnet"
     get "/call-all", to: "api#call_all"
+    get "/llm", to: "llm#show"
   end
 end
