@@ -68,7 +68,7 @@ module Api
       if anthropic_key.present? && anthropic_key != "your_anthropic_key_here"
         # Non-streaming
         begin
-          client = Anthropic::Client.new(api_key: anthropic_key)
+          client = Anthropic::Client.new(access_token: anthropic_key)
           response = client.messages(parameters: {
             model: "claude-haiku-4-5-20251001",
             max_tokens: 50,
@@ -90,7 +90,7 @@ module Api
 
         # Streaming
         begin
-          client = Anthropic::Client.new(api_key: anthropic_key)
+          client = Anthropic::Client.new(access_token: anthropic_key)
           stream_chunks = []
           stream_model = nil
           client.messages(parameters: {
