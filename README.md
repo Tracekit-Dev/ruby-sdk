@@ -24,6 +24,7 @@ TraceKit Ruby SDK provides production-ready distributed tracing, metrics, and co
 - **Code Monitoring**: Live production debugging with non-breaking snapshots
 - **Security Scanning**: Automatic detection of sensitive data (PII, credentials)
 - **Local UI Auto-Detection**: Automatically sends traces to local TraceKit UI
+- **LLM Auto-Instrumentation**: Zero-config tracing of OpenAI and Anthropic API calls via Module#prepend
 - **Rails Auto-Configuration**: Zero-configuration setup via Railtie
 - **Rack Middleware**: Automatic request instrumentation for any Rack application
 - **Thread-Safe Metrics**: Concurrent metric collection with automatic buffering
@@ -377,6 +378,100 @@ sdk.capture_snapshot("process-data", { batch_size: 100 })
 - The SDK automatically retries after the cooldown period
 - Thread-safe via `Mutex` — safe for multi-threaded Ruby applications (Puma, Sidekiq)
 
+## LLM Instrumentation
+
+TraceKit automatically instruments OpenAI and Anthropic API calls when the gems are present. No manual setup required — the SDK patches clients at init via `Module#prepend`.
+
+### Supported Gems
+
+- **[ruby-openai](https://github.com/alexrudall/ruby-openai)** (~> 7.0) — `OpenAI::Client#chat`
+- **[anthropic](https://github.com/alexrudall/anthropic)** (~> 0.3) — `Anthropic::Client#messages`
+
+### Usage
+
+```ruby
+# Just use the gems normally — TraceKit instruments automatically
+
+# OpenAI
+client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
+response = client.chat(parameters: {
+  model: "gpt-4o-mini",
+  messages: [{ role: "user", content: "Hello!" }],
+  max_tokens: 100
+})
+
+# Anthropic
+client = Anthropic::Client.new(access_token: ENV["ANTHROPIC_API_KEY"])
+response = client.messages(parameters: {
+  model: "claude-sonnet-4-20250514",
+  max_tokens: 100,
+  messages: [{ role: "user", content: "Hello!" }]
+})
+```
+
+### Streaming
+
+Both streaming and non-streaming calls are instrumented:
+
+```ruby
+# OpenAI streaming
+client.chat(parameters: {
+  model: "gpt-4o-mini",
+  messages: [{ role: "user", content: "Tell me a story" }],
+  stream: proc { |chunk, _bytesize|
+    print chunk.dig("choices", 0, "delta", "content")
+  }
+})
+
+# Anthropic streaming
+client.messages(parameters: {
+  model: "claude-sonnet-4-20250514",
+  max_tokens: 200,
+  messages: [{ role: "user", content: "Tell me a story" }],
+  stream: proc { |event|
+    if event["type"] == "content_block_delta"
+      print event.dig("delta", "text")
+    end
+  }
+})
+```
+
+### Captured Attributes
+
+Each LLM call creates a span with [GenAI semantic convention](https://opentelemetry.io/docs/specs/semconv/gen-ai/) attributes:
+
+| Attribute | Description |
+|-----------|-------------|
+| `gen_ai.system` | `openai` or `anthropic` |
+| `gen_ai.request.model` | Model name (e.g., `gpt-4o-mini`) |
+| `gen_ai.request.max_tokens` | Max tokens requested |
+| `gen_ai.response.model` | Model used in response |
+| `gen_ai.response.id` | Response ID |
+| `gen_ai.response.finish_reason` | `stop`, `end_turn`, etc. |
+| `gen_ai.usage.input_tokens` | Prompt tokens used |
+| `gen_ai.usage.output_tokens` | Completion tokens used |
+
+### Content Capture
+
+Input/output content capture is **disabled by default** for privacy. Enable it with:
+
+```bash
+TRACEKIT_LLM_CAPTURE_CONTENT=true
+```
+
+### Configuration
+
+LLM instrumentation is enabled by default when OpenAI or Anthropic gems are detected. To disable:
+
+```ruby
+Tracekit.configure do |config|
+  config.llm = { enabled: false }          # Disable all LLM instrumentation
+  config.llm = { openai: false }           # Disable OpenAI only
+  config.llm = { anthropic: false }        # Disable Anthropic only
+  config.llm = { capture_content: true }   # Enable content capture via config
+end
+```
+
 ## Distributed Tracing
 
 The SDK automatically:
@@ -452,6 +547,10 @@ ruby-sdk/
 │   │   ├── sdk.rb                 # Main SDK class
 │   │   ├── railtie.rb             # Rails auto-configuration
 │   │   ├── middleware.rb          # Rack middleware
+│   │   ├── llm/                   # LLM auto-instrumentation
+│   │   │   ├── common.rb          # Shared helpers, PII scrubbing
+│   │   │   ├── openai_instrumentation.rb   # OpenAI Module#prepend
+│   │   │   └── anthropic_instrumentation.rb # Anthropic Module#prepend
 │   │   ├── metrics/               # Metrics implementation
 │   │   ├── security/              # Security scanning
 │   │   └── snapshots/             # Code monitoring
@@ -523,6 +622,7 @@ bundle exec rails server -p 5002
 - `GET /api/call-go` - Call Go test service
 - `GET /api/call-node` - Call Node test service
 - `GET /api/call-all` - Call all test services
+- `GET /api/llm` - LLM instrumentation test (OpenAI + Anthropic, streaming + non-streaming)
 
 See [ruby-test/README.md](ruby-test/README.md) for details.
 
@@ -597,4 +697,4 @@ Built on [OpenTelemetry](https://opentelemetry.io/) - the industry standard for 
 ---
 
 **Repository**: git@github.com:Tracekit-Dev/ruby-sdk.git
-**Version**: v0.2.0
+**Version**: v0.2.3
