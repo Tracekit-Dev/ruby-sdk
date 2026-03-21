@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3] - 2026-03-21
+
+### Added
+- LLM auto-instrumentation for OpenAI and Anthropic APIs via Module#prepend
+- Streaming support for both OpenAI (SSE chunks) and Anthropic (SSE events) chat completions
+- Automatic capture of gen_ai.* semantic convention attributes (model, provider, tokens, cost, latency, finish_reason)
+- Content capture option for request/response messages (TRACEKIT_LLM_CAPTURE_CONTENT env var)
+- Tool call detection and instrumentation for function calling
+- PII scrubbing for captured LLM content
+- Provider auto-detection via LoadError handling
+- StreamWrapper for OpenAI and AnthropicStreamWrapper for Anthropic streaming responses
+- Anthropic cache token tracking (cache_creation_input_tokens, cache_read_input_tokens)
+
+### Changed
+- SDK init auto-detects and patches OpenAI::Client#chat and Anthropic::Client::Messages#create when gems are present
+
 ## [0.1.0] - 2024-02-04
 
 ### Added
@@ -136,3 +152,4 @@ This is the first production-ready release of the TraceKit Ruby SDK. It provides
 ---
 
 [0.1.0]: https://github.com/Tracekit-Dev/ruby-sdk/releases/tag/v0.1.0
+[0.2.3]: https://github.com/Tracekit-Dev/ruby-sdk/releases/tag/v0.2.3
