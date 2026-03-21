@@ -23,7 +23,8 @@ module Tracekit
         instrumentation_mod = Module.new do
           define_method(:chat) do |parameters: {}|
             model = parameters[:model] || parameters["model"] || "unknown"
-            is_streaming = !!(parameters[:stream] || parameters["stream"])
+            stream_proc = parameters[:stream] || parameters["stream"]
+            is_streaming = stream_proc.is_a?(Proc)
             capture = Common.capture_content?
 
             span = tracer.start_span("chat #{model}", kind: :client)
@@ -48,22 +49,39 @@ module Tracekit
                 end
               end
 
-              # For streaming, inject stream_options.include_usage
               if is_streaming
+                # ruby-openai handles streaming via proc callback internally.
+                # The chat method returns the final response hash, not an enumerator.
+                # We wrap the user's proc to accumulate span data from each chunk.
+                accumulator = OpenAIStreamAccumulator.new(span, capture)
+                wrapper_proc = proc do |chunk, bytesize|
+                  accumulator.process_chunk(chunk)
+                  # Call original proc with same args
+                  if stream_proc.arity == 2 || stream_proc.arity < 0
+                    stream_proc.call(chunk, bytesize)
+                  else
+                    stream_proc.call(chunk)
+                  end
+                end
+
+                # Inject stream_options.include_usage for token counting
                 params = parameters.dup
                 so = params[:stream_options] || params["stream_options"] || {}
                 unless so[:include_usage] || so["include_usage"]
                   params[:stream_options] = so.merge(include_usage: true)
                 end
+                params[:stream] = wrapper_proc
+
                 result = super(parameters: params)
-                return StreamWrapper.new(result, span, capture)
+                accumulator.finalize
+                result
+              else
+                result = super(parameters: parameters)
+
+                # Non-streaming response handling
+                handle_response(span, result, capture)
+                result
               end
-
-              result = super(parameters: parameters)
-
-              # Non-streaming response handling
-              handle_response(span, result, capture)
-              result
             rescue => e
               Common.set_error_attributes(span, e)
               span.finish
@@ -110,12 +128,9 @@ module Tracekit
         true
       end
 
-      # Wraps OpenAI streaming response to accumulate tokens
-      class StreamWrapper
-        include Enumerable
-
-        def initialize(enum, span, capture_content)
-          @enum = enum
+      # Accumulates streaming chunk data for span attributes via proc interception
+      class OpenAIStreamAccumulator
+        def initialize(span, capture_content)
           @span = span
           @capture = capture_content
           @model = nil
@@ -126,22 +141,6 @@ module Tracekit
           @output_chunks = []
           @tool_calls = {}
         end
-
-        def each(&block)
-          return enum_for(:each) unless block_given?
-
-          @enum.each do |chunk|
-            process_chunk(chunk)
-            block.call(chunk)
-          end
-          finalize
-        rescue => e
-          Common.set_error_attributes(@span, e)
-          @span.finish
-          raise
-        end
-
-        private
 
         def process_chunk(chunk)
           @model ||= chunk.dig("model")
