@@ -3,6 +3,7 @@
 require_relative "tracekit/version"
 require_relative "tracekit/config"
 require_relative "tracekit/endpoint_resolver"
+require_relative "tracekit/evaluator"
 
 # Metrics
 require_relative "tracekit/metrics/metric_data_point"
