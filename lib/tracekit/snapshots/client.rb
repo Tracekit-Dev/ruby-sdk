@@ -91,9 +91,31 @@ module Tracekit
         return if breakpoint.expire_at && Time.now > breakpoint.expire_at
         return if breakpoint.max_captures > 0 && breakpoint.capture_count >= breakpoint.max_captures
 
-        # Apply opt-in capture depth limit
-        if @capture_depth && @capture_depth > 0
-          variables = limit_depth(variables, 0)
+        # Evaluate breakpoint condition locally for sdk-evaluable expressions
+        if breakpoint.condition && !breakpoint.condition.empty? && breakpoint.condition_eval == "sdk-evaluable"
+          begin
+            result = Tracekit::Evaluator.evaluate_condition(breakpoint.condition, variables)
+            return unless result # Condition false, skip capture
+          rescue Tracekit::Evaluator::UnsupportedExpressionError
+            # Classified as sdk-evaluable but failed locally, fall through to server
+            warn "TraceKit: expression classified as sdk-evaluable but failed locally, falling back to server" if ENV["DEBUG"]
+          rescue => e
+            # Other evaluation error, log and fall through to server
+            warn "TraceKit: condition evaluation error, falling back to server: #{e.message}" if ENV["DEBUG"]
+          end
+        end
+
+        # Logpoint mode: capture only expression results, skip locals/stack/request
+        if breakpoint.mode == "logpoint"
+          snapshot = build_logpoint_snapshot(breakpoint, file_path, line_number, function_name, label, variables)
+          Thread.new { submit_snapshot_with_payload_limit(snapshot, breakpoint.max_payload_bytes) }
+          return
+        end
+
+        # Apply per-breakpoint capture depth limit (with SDK-level fallback)
+        effective_depth = breakpoint.max_depth || @capture_depth
+        if effective_depth && effective_depth > 0
+          variables = limit_depth(variables, 0, effective_depth)
         end
 
         # Scan for security issues
@@ -110,8 +132,9 @@ module Tracekit
           end
         end
 
-        # Get stack trace
-        stack_trace = caller.join("\n")
+        # Get stack trace with dynamic depth from per-breakpoint config
+        effective_stack_depth = breakpoint.stack_depth || 50
+        stack_trace = caller(1, effective_stack_depth).join("\n")
 
         snapshot = Snapshot.new(
           breakpoint_id: breakpoint.id,
@@ -128,24 +151,9 @@ module Tracekit
           captured_at: Time.now.utc.iso8601
         )
 
-        # Apply opt-in max payload limit
-        serialized = JSON.generate(snapshot.to_h)
-        if @max_payload && @max_payload > 0 && serialized.bytesize > @max_payload
-          snapshot = Snapshot.new(
-            breakpoint_id: breakpoint.id,
-            service_name: @service_name,
-            file_path: file_path,
-            function_name: function_name,
-            label: label,
-            line_number: line_number,
-            variables: { "_truncated" => true, "_payload_size" => serialized.bytesize, "_max_payload" => @max_payload },
-            security_flags: [],
-            stack_trace: stack_trace,
-            trace_id: trace_id,
-            span_id: span_id,
-            captured_at: Time.now.utc.iso8601
-          )
-        end
+        # Apply per-breakpoint max payload limit (with SDK-level fallback)
+        effective_max_payload = breakpoint.max_payload_bytes || @max_payload
+        submit_snapshot_with_payload_limit(snapshot, effective_max_payload)
 
         # Submit asynchronously (with optional timeout)
         if @capture_timeout && @capture_timeout > 0
@@ -169,22 +177,75 @@ module Tracekit
 
       private
 
-      # Limit variable nesting depth (opt-in)
-      def limit_depth(data, current_depth)
-        return { "_truncated" => true, "_depth" => current_depth } if current_depth >= @capture_depth
+      # Limit variable nesting depth (opt-in, supports per-breakpoint override)
+      def limit_depth(data, current_depth, max_depth = nil)
+        effective_depth = max_depth || @capture_depth
+        return { "_truncated" => true, "_depth" => current_depth } if current_depth >= effective_depth
 
         case data
         when Hash
           result = {}
           data.each do |k, v|
-            result[k] = limit_depth(v, current_depth + 1)
+            result[k] = limit_depth(v, current_depth + 1, effective_depth)
           end
           result
         when Array
-          data.map { |item| limit_depth(item, current_depth + 1) }
+          data.map { |item| limit_depth(item, current_depth + 1, effective_depth) }
         else
           data
         end
+      end
+
+      # Build a logpoint snapshot: expression results only, no locals/stack
+      def build_logpoint_snapshot(breakpoint, file_path, line_number, function_name, label, variables)
+        expression_results = {}
+        if breakpoint.capture_expressions && !breakpoint.capture_expressions.empty?
+          expression_results = Tracekit::Evaluator.evaluate_expressions(
+            breakpoint.capture_expressions, variables
+          )
+        end
+
+        Snapshot.new(
+          breakpoint_id: breakpoint.id,
+          service_name: @service_name,
+          file_path: file_path,
+          function_name: function_name,
+          label: label,
+          line_number: line_number,
+          variables: {},
+          security_flags: [],
+          stack_trace: "",
+          trace_id: nil,
+          span_id: nil,
+          captured_at: Time.now.utc.iso8601,
+          expression_results: expression_results,
+          mode: "logpoint"
+        )
+      end
+
+      # Submit snapshot with payload limit check
+      def submit_snapshot_with_payload_limit(snapshot, max_payload_bytes)
+        effective_limit = max_payload_bytes || @max_payload
+        if effective_limit && effective_limit > 0
+          serialized = JSON.generate(snapshot.to_h)
+          if serialized.bytesize > effective_limit
+            snapshot = Snapshot.new(
+              breakpoint_id: snapshot.breakpoint_id,
+              service_name: snapshot.service_name,
+              file_path: snapshot.file_path,
+              function_name: snapshot.function_name,
+              label: snapshot.label,
+              line_number: snapshot.line_number,
+              variables: { "_truncated" => true, "_payload_size" => serialized.bytesize, "_max_payload" => effective_limit },
+              security_flags: [],
+              stack_trace: snapshot.stack_trace,
+              trace_id: snapshot.trace_id,
+              span_id: snapshot.span_id,
+              captured_at: snapshot.captured_at
+            )
+          end
+        end
+        Thread.new { submit_snapshot(snapshot) }
       end
 
       def fetch_active_breakpoints
@@ -237,17 +298,7 @@ module Tracekit
         @breakpoints_cache.clear
 
         breakpoints.each do |bp_data|
-          bp = BreakpointConfig.new(
-            id: bp_data[:id],
-            file_path: bp_data[:file_path],
-            line_number: bp_data[:line_number],
-            function_name: bp_data[:function_name],
-            label: bp_data[:label],
-            enabled: bp_data[:enabled],
-            max_captures: bp_data[:max_captures] || 0,
-            capture_count: bp_data[:capture_count] || 0,
-            expire_at: bp_data[:expire_at] ? Time.parse(bp_data[:expire_at]) : nil
-          )
+          bp = build_breakpoint_config(bp_data)
 
           # Key by function + label
           if bp.label && bp.function_name
@@ -455,9 +506,9 @@ module Tracekit
         warn "TraceKit: SSE event handling error: #{e.message}" if ENV["DEBUG"]
       end
 
-      # Upsert a single breakpoint into the cache
-      def upsert_breakpoint(bp_data)
-        bp = BreakpointConfig.new(
+      # Build a BreakpointConfig from parsed payload data
+      def build_breakpoint_config(bp_data)
+        BreakpointConfig.new(
           id: bp_data[:id],
           file_path: bp_data[:file_path],
           line_number: bp_data[:line_number],
@@ -466,8 +517,21 @@ module Tracekit
           enabled: bp_data[:enabled],
           max_captures: bp_data[:max_captures] || 0,
           capture_count: bp_data[:capture_count] || 0,
-          expire_at: bp_data[:expire_at] ? Time.parse(bp_data[:expire_at]) : nil
+          expire_at: bp_data[:expire_at] ? Time.parse(bp_data[:expire_at]) : nil,
+          condition: bp_data[:condition],
+          condition_eval: bp_data[:condition_eval],
+          mode: bp_data[:mode],
+          stack_depth: bp_data[:stack_depth],
+          max_depth: bp_data[:max_depth],
+          max_payload_bytes: bp_data[:max_payload_bytes],
+          capture_expressions: bp_data[:capture_expressions],
+          idle_timeout_hours: bp_data[:idle_timeout_hours]
         )
+      end
+
+      # Upsert a single breakpoint into the cache
+      def upsert_breakpoint(bp_data)
+        bp = build_breakpoint_config(bp_data)
 
         # Key by function + label
         if bp.label && bp.function_name

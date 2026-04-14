@@ -6,6 +6,10 @@ module Tracekit
     BreakpointConfig = Struct.new(
       :id, :file_path, :line_number, :function_name, :label,
       :enabled, :max_captures, :capture_count, :expire_at,
+      # v25 capture features
+      :condition, :condition_eval, :mode, :stack_depth,
+      :max_depth, :max_payload_bytes, :capture_expressions,
+      :idle_timeout_hours,
       keyword_init: true
     )
 
@@ -14,6 +18,8 @@ module Tracekit
       :breakpoint_id, :service_name, :file_path, :function_name, :label,
       :line_number, :variables, :security_flags, :stack_trace,
       :trace_id, :span_id, :captured_at,
+      # v25 capture features
+      :expression_results, :mode,
       keyword_init: true
     )
 
