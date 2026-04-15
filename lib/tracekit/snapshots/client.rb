@@ -126,9 +126,17 @@ module Tracekit
         span_id = nil
         if defined?(OpenTelemetry::Trace)
           span = OpenTelemetry::Trace.current_span
-          if span && span.context.valid? && (span.context.trace_flags & OpenTelemetry::Trace::TraceFlags::SAMPLED) != 0
-            trace_id = span.context.hex_trace_id
-            span_id = span.context.hex_span_id
+          if span && span.context.valid?
+            sampled = begin
+              span.context.trace_flags.sampled?
+            rescue NoMethodError
+              # Fallback for older OTel versions
+              (span.context.trace_flags.to_i & 0x01) != 0 rescue false
+            end
+            if sampled
+              trace_id = span.context.hex_trace_id
+              span_id = span.context.hex_span_id
+            end
           end
         end
 
@@ -354,6 +362,7 @@ module Tracekit
       end
 
       def submit_snapshot(snapshot)
+        # Circuit breaker check
         # Circuit breaker check
         return unless circuit_breaker_should_allow?
 
